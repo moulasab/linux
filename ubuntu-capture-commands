@@ -1,0 +1,11 @@
+Enable commands executed by all the users in server and capture in /var/log/commands.log file.
+
+Log Path: /var/log/commands.log
+
+
+sudo echo "export PROMPT_COMMAND='RETRN_VAL=\$?;logger -p local6.debug \"\$(whoami) [\$\$]: \$(history 1 | sed \"s/[ ][0-9]+[ ]//\" ) [\$RETRN_VAL]\"'" >> /etc/bash.bashrc
+sudo echo "local6.*    /var/log/commands.log" >> /etc/rsyslog.d/bash.conf
+sudo echo "/var/log/commands.log" >> /etc/logrotate.d/rsyslog
+sudo /etc/init.d/rsyslog restart
+
+Validation: As soon you run the above commands, exit from the current session and relogin then check /var/log/commands.log
